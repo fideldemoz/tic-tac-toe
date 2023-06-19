@@ -1,0 +1,53 @@
+* {
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
+	font-family: cursive;
+}
+
+.game {
+	display: grid;
+	grid-template-columns: repeat(3,100px);
+	width: 300px;
+	height: 300px;
+}
+
+input {
+	border: 0;
+	font-size: 72px;
+	font-weight: bold;
+	padding: 0 25px;
+}
+input:focus {
+	outline: 0;
+	border:0;
+}
+
+.c0, .c1 {
+	border-right: 2px solid black;
+}
+
+.r0, .r1 {
+	border-bottom: 2px solid black;
+} 
+
+.in {
+	background-color: black;
+	color: white;
+}
+
+main {
+	display: grid;
+	grid-template: 1fr / 1fr 2fr;
+	grid-gap: 4rem;
+	margin: 20px 100px;
+}
+.display {
+	display: grid;
+	background-color: hsla(0,30%,70%);
+}
+
+.console, .console2 {
+	font-family: monospace;
+	font-size: 18px;
+}

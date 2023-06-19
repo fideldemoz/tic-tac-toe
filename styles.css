@@ -45,9 +45,21 @@ main {
 .display {
 	display: grid;
 	background-color: hsla(0,30%,70%);
+	align-content: center;
+    justify-content: space-around;
 }
 
 .console, .console2 {
 	font-family: monospace;
 	font-size: 18px;
+}
+
+@media screen and (max-width: 550px) {
+	main {
+		grid-template: 1fr 1fr/1fr;
+		margin: 1rem;
+	}
+	.game {
+		margin: 0 auto;
+	}
 }

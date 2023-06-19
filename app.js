@@ -1,21 +1,3 @@
-(function app () {
-  "use strict"
-  console.log('App has started running.');
-
-  function Player (name,token) {
-    return {name, token}
-  }
-
-  function Board (argument) {
-    // body... 
-  }
-
-  function Game (argument) {
-    // body... 
-  }
-
-
-})()
 const consol = document.querySelector(".console")
 const consol2 = document.querySelector(".console2")
 const setPlayers = function(one, two){
@@ -36,6 +18,7 @@ playersName = setPlayers(player1.name,player2.name)
 let play = players.one;
 let player= playersName.one;
   consol.textContent = `${player}'s turn.`
+let isOver;
 
 function switchPlayer () {
   play === players.one ? play = players.two : play = players.one;
@@ -51,9 +34,7 @@ const inps = document.querySelectorAll("input");
     element.addEventListener("click", () => {
       let index = element.dataset.index;
       board[index] = play;
-      if (board.includes(undefined)) {
         populate()
-      }
       checkWinner()
       switchPlayer()
       switchPlayersName()
@@ -72,7 +53,8 @@ function populate () {
 
   if (!board.includes(undefined)) {
     consol2.textContent = "Tie."
-    window.setInterval(() => window.location.reload(), 3000);
+    gameOver()
+    /*window.setInterval(() => window.location.reload(), 3000);*/
   }
 }
 
@@ -98,14 +80,20 @@ win.forEach( function(element) {
    if (element[0] === element[1] && element[0] === element[2]) {
     let winner = element[0]
     if (winner !== undefined) {
-    board = [,,,,,,,,];
+      gameOver()
+      board = [,,,,,,,,];
       winner === "o" ? winner = player2.name : winner = player1.name;
-    consol2.textContent = `${winner} wins.`
+      consol2.textContent = `${winner} wins.`
 
-    window.setInterval(() => window.location.reload(), 3000);
+    /*window.setInterval(() => window.location.reload(), 3000);*/
     }
    }
   })
 }
 
 
+function gameOver () {
+  inps.forEach( function(element, index) {
+    element.setAttribute("disabled", "")
+  }); 
+}

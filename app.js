@@ -1,99 +1,94 @@
-const consol = document.querySelector(".console")
-const consol2 = document.querySelector(".console2")
-const setPlayers = function(one, two){
-  return {one, two};
-}
-p1 = prompt("Player 1")
-p2 = prompt("Player 2")
-player1 = {
-  name: p1,
-  token: "x"
-}
-player2 = {
-  name: p2,
-  token: "o"
-}
-players = setPlayers(player1.token,player2.token)
-playersName = setPlayers(player1.name,player2.name)
-let play = players.one;
-let player= playersName.one;
-  consol.textContent = `${player}'s turn.`
-let isOver;
+(function game () {
+  "use strict"
+  let board = [,,,,,,,,,];
+  
+  let isgameOver;
+  const getBoard = () => {return {board}};
+  const inputs = document.querySelectorAll("input");
 
-function switchPlayer () {
-  play === players.one ? play = players.two : play = players.one;
-  consol.textContent = `${play}'s turn.`
-}
-function switchPlayersName () {
-  player === playersName.one ? player = playersName.two : player = playersName.one;
-  consol.textContent = `${player}'s turn.`
-}
-let board = [,,,,,,,,];
-const inps = document.querySelectorAll("input");
-  inps.forEach( function(element) {
-    element.addEventListener("click", () => {
-      let index = element.dataset.index;
-      board[index] = play;
-        populate()
-      checkWinner()
-      switchPlayer()
-      switchPlayersName()
-    })
-});
+  const console1 = document.querySelector(".console");
+  const console2 = document.querySelector(".console2");
 
-function populate () {
-  board.forEach( function(element, index) {
-    if (element !== undefined) {
-    const wrapper = document.querySelector(`input[data-index="${index}"]`);
-    wrapper.classList.add("in");
-    wrapper.value = element;
-    wrapper.setAttribute("disabled", "")
-    }
-  });
+  const setPlayers = (one, two) => { return {one, two};};
 
-  if (!board.includes(undefined)) {
-    consol2.textContent = "Tie."
-    gameOver()
-    /*window.setInterval(() => window.location.reload(), 3000);*/
+  let firstPlayer = prompt("Insert Player 1's Name", "Player1");
+  let secondPlayer = prompt("Insert Player 2's Name", "Player2");
+
+  const setEachPlayer = (name) => {
+    name = name
+    let token;
+    name === firstPlayer ? token = "x" : token = "o"
+    return {name, token};
+  };
+
+  const Player1 = setEachPlayer(firstPlayer);
+  const Player2 = setEachPlayer(secondPlayer);
+
+  const players = setPlayers(Player1, Player2);
+
+  let currentPlayer = players.one;
+
+  function switchPlayer () {
+    currentPlayer === players.one ? currentPlayer = players.two : currentPlayer = players.one;
+    console1.textContent = `${currentPlayer.name}'s turn.`
+    return {currentPlayer}
   }
-}
 
-function clearBox () {
-  inps.forEach( function(element, index) {
-    element.classList.remove("in");
-    element.value = "";
-    element.removeAttribute("disabled");
-  });
-}
-function checkWinner () {
-let win = [
-[board[0],board[1], board[2]],
-[board[3],board[4], board[5]],
-[board[6],board[7], board[8]],
-[board[0],board[3], board[6]],
-[board[1],board[4], board[7]],
-[board[2],board[5], board[8]],
-[board[0],board[4], board[8]],
-[board[6],board[4], board[2]]
-]
-win.forEach( function(element) {
-   if (element[0] === element[1] && element[0] === element[2]) {
-    let winner = element[0]
-    if (winner !== undefined) {
-      gameOver()
-      board = [,,,,,,,,];
-      winner === "o" ? winner = player2.name : winner = player1.name;
-      consol2.textContent = `${winner} wins.`
-
-    /*window.setInterval(() => window.location.reload(), 3000);*/
+  function populate () {
+    board.forEach( function(element, index) {
+      if (element !== undefined) {
+        const wrapper = document.querySelector(`input[data-index="${index}"]`);
+        wrapper.classList.add("in");
+        wrapper.value = element;
+        wrapper.setAttribute("disabled", "");
+      }
+    });
+    if (board.length === 9 && !board.includes(undefined)) {
+      console2.textContent = "Tie.";
+      gameOver();
     }
-   }
-  })
-}
+    console.log()
 
+  }
 
-function gameOver () {
-  inps.forEach( function(element, index) {
-    element.setAttribute("disabled", "")
-  }); 
-}
+  function gameOver () {
+    inputs.forEach( function(element, index) {
+      element.setAttribute("disabled", "");
+  })};
+
+  function checkWinner () {
+    let winsIf = [
+      [board[0],board[1], board[2]],
+      [board[3],board[4], board[5]],
+      [board[6],board[7], board[8]],
+      [board[0],board[3], board[6]],
+      [board[1],board[4], board[7]],
+      [board[2],board[5], board[8]],
+      [board[0],board[4], board[8]],
+      [board[6],board[4], board[2]]
+    ];
+    winsIf.forEach( function(element) {
+      if (element[0] === element[1] && element[0] === element[2]) {
+        let winner = element[0]
+        if (winner !== undefined) {
+          gameOver()
+          board = [,,,,,,,,];
+          winner === "o" ? winner = players.two.name : winner = players.one.name;
+          console2.textContent = `${winner} wins.`;
+  }}})};
+
+  const start = function  () {
+    inputs.forEach( function(space) {
+      space.addEventListener("click", () => {
+        let index = space.dataset.index;
+        play(currentPlayer,index);
+        populate()
+        checkWinner()
+        switchPlayer()
+  })})};
+
+  function play (player,index) {
+    board[index] = player.token;
+  }
+  start()
+})()

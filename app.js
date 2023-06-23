@@ -1,4 +1,12 @@
-(function game () {
+(function intro () {
+  "use strict"
+  const startButton = document.querySelector(".start");
+  startButton.addEventListener("click", function () {
+    game();
+  })
+})()
+
+function game () {
   "use strict"
   let board = [,,,,,,,,,];
   
@@ -91,4 +99,4 @@
     board[index] = player.token;
   }
   start()
-})()
+}

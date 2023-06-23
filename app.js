@@ -1,7 +1,14 @@
+const inputs = document.querySelectorAll("input");
 (function intro () {
   "use strict"
+  inputs.forEach( function(element, index) {
+      element.setAttribute("disabled", "");
+  });
   const startButton = document.querySelector(".start");
   startButton.addEventListener("click", function () {
+    inputs.forEach( function(element, index) {
+          element.removeAttribute("disabled");
+      });
     game();
   })
 })()
@@ -10,12 +17,11 @@ function game () {
   "use strict"
   let board = [,,,,,,,,,];
   
+  const resetButton = document.querySelector(".reset");
   let isgameOver;
   const getBoard = () => {return {board}};
-  const inputs = document.querySelectorAll("input");
 
   const console1 = document.querySelector(".console");
-  const console2 = document.querySelector(".console2");
 
   const setPlayers = (one, two) => { return {one, two};};
 
@@ -32,13 +38,20 @@ function game () {
   const Player1 = setEachPlayer(firstPlayer);
   const Player2 = setEachPlayer(secondPlayer);
 
+  if (firstPlayer === secondPlayer) {
+    window.alert("Can't use same name for both players.");
+    firstPlayer = prompt("Insert Player 1's Name", "Player1");
+    secondPlayer = prompt("Insert Player 2's Name", "Player2");
+  }
+
   const players = setPlayers(Player1, Player2);
 
   let currentPlayer = players.one;
+  console1.textContent = `${currentPlayer.name}'s turn.`;
 
   function switchPlayer () {
     currentPlayer === players.one ? currentPlayer = players.two : currentPlayer = players.one;
-    console1.textContent = `${currentPlayer.name}'s turn.`
+    console1.textContent = `${currentPlayer.name}'s turn.`;
     return {currentPlayer}
   }
 
@@ -52,10 +65,9 @@ function game () {
       }
     });
     if (board.length === 9 && !board.includes(undefined)) {
-      console2.textContent = "Tie.";
+      console1.textContent = "Tie.";
       gameOver();
     }
-    console.log()
 
   }
 
@@ -82,7 +94,7 @@ function game () {
           gameOver()
           board = [,,,,,,,,];
           winner === "o" ? winner = players.two.name : winner = players.one.name;
-          console2.textContent = `${winner} wins.`;
+          console1.textContent = `${winner} wins.`;          
   }}})};
 
   const start = function  () {
@@ -91,12 +103,16 @@ function game () {
         let index = space.dataset.index;
         play(currentPlayer,index);
         populate()
-        checkWinner()
         switchPlayer()
+        checkWinner()
   })})};
 
+  resetButton.addEventListener("click", () => {
+    window.location.reload();
+  })
   function play (player,index) {
     board[index] = player.token;
   }
+
   start()
 }

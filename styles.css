@@ -63,3 +63,22 @@ main {
 		margin: 0 auto;
 	}
 }
+
+aside {
+	display: flex;
+    justify-content: space-around;
+}
+
+aside button {
+	padding: 8px 12px;
+	font-weight: 900;
+	font-size: 18px;
+}
+
+.start {
+	color: green;
+}
+
+.stop {
+	color: red;
+}

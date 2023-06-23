@@ -102,8 +102,8 @@ function game () {
       space.addEventListener("click", () => {
         let index = space.dataset.index;
         play(currentPlayer,index);
-        populate()
         switchPlayer()
+        populate()
         checkWinner()
   })})};
 
